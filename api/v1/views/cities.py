@@ -6,10 +6,11 @@ from flask import abort, jsonify, make_response, request
 from models import storage
 from models.city import City
 from models.state import State
-
+from flasgger.utils import swag_from
 
 @app_views.route('/states/<string:state_id>/cities', methods=['GET'],
                  strict_slashes=False)
+@swag_from('documentation/city/cities_by_state.yml', methods=['GET'])
 def get_cities(state_id):
     """get city information for all cities in a specified state"""
     state = storage.get("State", state_id)
@@ -23,6 +24,7 @@ def get_cities(state_id):
 
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
                  strict_slashes=False)
+@swag_from('documentation/city/get_city.yml', methods=['GET'])
 def get_city(city_id):
     """get city information for specified city"""
     city = storage.get("City", city_id)
@@ -33,6 +35,7 @@ def get_city(city_id):
 
 @app_views.route('/cities/<string:city_id>', methods=['DELETE'],
                  strict_slashes=False)
+@swag_from('documentation/city/delete_city.yml', methods=['DELETE'])
 def delete_city(city_id):
     """deletes a city based on its city_id"""
     city = storage.get("City", city_id)
@@ -45,6 +48,7 @@ def delete_city(city_id):
 
 @app_views.route('/states/<string:state_id>/cities/', methods=['POST'],
                  strict_slashes=False)
+@swag_from('documentation/city/post_city.yml', methods=['POST'])
 def post_city(state_id):
     """create a new city"""
     state = storage.get("State", state_id)
@@ -63,6 +67,7 @@ def post_city(state_id):
 
 @app_views.route('/cities/<string:city_id>', methods=['PUT'],
                  strict_slashes=False)
+@swag_from('documentation/city/put_city.yml', methods=['PUT'])
 def put_city(city_id):
     """update a city"""
     city = storage.get("City", city_id)

@@ -6,10 +6,12 @@ from flask import abort, jsonify, make_response, request
 from models import storage
 from models.amenity import Amenity
 from models.place import Place
-
+from flasgger.utils import swag_from
 
 @app_views.route('/places/<string:place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
+@swag_from('documentation/place_amenity/get_places_amenities.yml',
+           methods=['GET'])
 def get_place_amenities(place_id):
     """get amenity information for a specified place"""
     place = storage.get("Place", place_id)
@@ -27,6 +29,8 @@ def get_place_amenities(place_id):
 
 @app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
                  methods=['DELETE'], strict_slashes=False)
+@swag_from('documentation/place_amenity/delete_place_amenities.yml',
+           methods=['DELETE'])
 def delete_place_amenity(place_id, amenity_id):
     """deletes an amenity object from a place"""
     place = storage.get("Place", place_id)
@@ -46,6 +50,8 @@ def delete_place_amenity(place_id, amenity_id):
 
 @app_views.route('/places/<string:place_id>/amenities/<string:amenity_id>',
                  methods=['POST'], strict_slashes=False)
+@swag_from('documentation/place_amenity/post_place_amenities.yml',
+           methods=['POST'])
 def post_place_amenity(place_id, amenity_id):
     """adds an amenity object to a place"""
     place = storage.get("Place", place_id)
